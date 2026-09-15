@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Union — people, conversations, topic rooms and communities built around what you like.">
+<title>Union</title>
+<style>
+:root{--bg:#f6f4fb;--card:#fff;--text:#181724;--muted:#747181;--line:#e8e5ef;--p:#6f5bf3;--p2:#d957b5;--soft:#f0edff;--shadow:0 14px 40px rgba(55,35,110,.09)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:linear-gradient(135deg,#f5f1ff,#fff7fc 52%,#f1f8ff);color:var(--text)}
+button,input,textarea,select{font:inherit}button{border:0;cursor:pointer}
+.app{min-height:100vh}.sidebar{position:fixed;z-index:10;left:0;top:0;bottom:0;width:245px;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-right:1px solid var(--line);padding:22px 15px}
+.logo{font-size:30px;font-weight:950;letter-spacing:-1.5px;margin:4px 10px 28px}.logo span{color:var(--p)}
+.nav button{width:100%;display:flex;align-items:center;gap:12px;padding:13px 14px;margin:6px 0;background:transparent;border-radius:14px;color:#666274;font-weight:800;text-align:left}
+.nav button.active,.nav button:hover{background:linear-gradient(90deg,#eeeaff,#fff0fa);color:#5f50df}
+.nav .ico{width:22px;text-align:center;font-size:18px}.main{margin-left:245px;padding:24px;max-width:1320px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.top h1{margin:0;font-size:28px;letter-spacing:-.7px}
+.avatar,.big-avatar{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;display:grid;place-items:center;font-weight:950;border-radius:50%;box-shadow:0 8px 20px rgba(111,91,243,.22)}.avatar{width:44px;height:44px}.big-avatar{width:86px;height:86px;font-size:30px}
+.section{display:none}.section.active{display:block}.card{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:21px;padding:20px;margin-bottom:16px;box-shadow:var(--shadow)}
+.hero{background:linear-gradient(135deg,#7059f3,#a25de7 45%,#db58ae);color:#fff;position:relative;overflow:hidden;padding:30px}.hero:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;background:#fff1;right:-70px;top:-100px}.hero h2{font-size:38px;line-height:1.05;margin:0 0 10px;position:relative;z-index:1}.hero p{max-width:680px;margin:0 0 20px;opacity:.94;position:relative;z-index:1}.primary{background:linear-gradient(135deg,var(--p),var(--p2));color:#fff;padding:11px 17px;border-radius:12px;font-weight:900;box-shadow:0 8px 18px rgba(111,91,243,.18)}.hero .primary{background:#fff;color:#6355e2}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.notice,.muted{color:var(--muted);font-size:13px}.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--soft);color:#5d51df;font-weight:800;font-size:12px;margin:3px}.row{display:flex;align-items:center;gap:12px}.spacer{flex:1}
+.person{display:flex;align-items:center;gap:12px;padding:12px;border-radius:15px}.person:hover{background:#faf8ff}.pfp{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:950;flex:none}.blue{background:#4c8df6}.pink{background:#e85cae}.purple{background:#8864f2}.green{background:#20b981}.orange{background:#f38b45}.small{padding:9px 13px;border-radius:11px;background:#eeebff;color:#5d51df;font-weight:850}.small:hover{background:#e0dbff}
+.choice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.choice{padding:11px;border:2px solid #e5e1ef;border-radius:13px;background:#fff;text-align:left;font-weight:800}.choice.selected{border-color:#7567f8;background:#f0edff;color:#5c50dd}
+input,textarea,select{width:100%;padding:12px;border:1px solid #ddd8eb;border-radius:12px;background:#fff;outline:none;color:var(--text)}textarea{min-height:120px;resize:vertical}label{display:block;margin:13px 0 6px;font-weight:850}
+.room{display:flex;align-items:center;gap:13px}.room-icon{width:55px;height:55px;border-radius:16px;background:linear-gradient(135deg,#eeeaff,#ffeafa);display:grid;place-items:center;font-size:23px;flex:none}
+.room-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.room-title{margin:0 0 3px}
+.chat-layout{display:grid;grid-template-columns:290px 1fr;gap:15px;height:calc(100vh - 105px);min-height:540px}.chat-list,.chat-window{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}.chat-list-head,.chat-head{padding:17px;border-bottom:1px solid #eeeaf4}.chat-list-head h2,.chat-head h2{margin:0}.chat-item{padding:12px 15px;display:flex;gap:11px;align-items:center;cursor:pointer}.chat-item:hover,.chat-item.selected{background:linear-gradient(90deg,#f0edff,#fff0fb)}.chat-body{height:calc(100% - 139px);padding:17px;overflow:auto;background:linear-gradient(180deg,#fff,#faf8ff)}.message{padding:10px 13px;border-radius:15px;background:#f0eff7;margin:8px 0;max-width:72%;width:max-content}.message.me{margin-left:auto;background:linear-gradient(135deg,#7869f8,#a66cf1);color:#fff}.chatbox{display:flex;gap:9px;padding:12px;border-top:1px solid #eeeaf4}.chatbox input{flex:1}.chatbox button{background:#7162f4;color:#fff;border-radius:12px;padding:0 18px;font-weight:850}
+.feature{height:100%;min-height:145px}.feature h3{margin-top:0}.feature .num{font-size:12px;color:#6b5be9;font-weight:950;letter-spacing:.5px}.assistant{background:linear-gradient(135deg,#19172a,#342b5d);color:#fff}.assistant .notice{color:#d8d3eb}.assistant input{margin-top:8px}
+.feed-item{padding:15px 0;border-bottom:1px solid var(--line)}.feed-item:last-child{border-bottom:0}.status{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#f2efff;color:#5d51df;font-weight:800;font-size:12px}
+.modal{position:fixed;inset:0;background:rgba(17,14,28,.48);display:none;place-items:center;z-index:30;padding:18px}.modal.show{display:grid}.modal-card{max-width:680px;width:100%;max-height:85vh;overflow:auto;background:#fff;border-radius:22px;padding:24px;box-shadow:0 25px 80px rgba(0,0,0,.22)}
+.onboard{min-height:100vh;display:grid;place-items:center;padding:22px}.onboard-card{max-width:720px;width:100%}.steps{display:flex;gap:7px;margin-bottom:20px}.step{height:6px;flex:1;border-radius:10px;background:#e4e0ee}.step.on{background:linear-gradient(90deg,var(--p),var(--p2))}.hide{display:none}
+@media(max-width:900px){.sidebar{width:72px;padding:18px 8px}.sidebar .logo{font-size:0;text-align:center}.sidebar .logo span{font-size:25px}.nav button{font-size:0;justify-content:center;padding:14px 8px}.nav .ico{font-size:20px}.main{margin-left:72px;width:calc(100% - 72px);padding:14px}.grid,.three{grid-template-columns:1fr}.chat-layout{grid-template-columns:1fr}.chat-list{display:none}.choice-grid{grid-template-columns:repeat(2,1fr)}.hero h2{font-size:31px}}
+@media(max-width:520px){.top h1{font-size:23px}.card{padding:16px}.hero{padding:23px}.hero h2{font-size:29px}.choice-grid{grid-template-columns:1fr 1fr}.chatbox{flex-wrap:wrap}.chatbox input{min-width:0}.chatbox button{height:44px}}
+</style>
+</head>
+<body>
+
+<div id="onboarding" class="onboard">
+  <div class="card onboard-card">
+    <div class="logo">Union<span>.</span></div>
+    <div class="steps"><div class="step on" id="s1"></div><div class="step" id="s2"></div><div class="step" id="s3"></div></div>
+    <div id="step1">
+      <h1>Welcome to Union</h1>
+      <p class="notice">A place for people, conversations and communities built around what you actually like.</p>
+      <label>What should people call you?</label><input id="joinName" placeholder="Display name">
+      <label>Age</label><input id="joinAge" type="number" min="13" max="99" placeholder="Your age">
+      <div style="display:flex;justify-content:flex-end;margin-top:22px"><button class="small" onclick="nextStep(2)">Continue →</button></div>
+    </div>
+    <div id="step2" class="hide">
+      <h1>Your interests</h1><p class="notice">Choose anything you genuinely enjoy. You can change it later.</p>
+      <div class="choice-grid" id="choices"></div>
+      <div style="display:flex;justify-content:space-between;margin-top:22px"><button class="small" onclick="nextStep(1)">← Back</button><button class="small" onclick="nextStep(3)">Continue →</button></div>
+    </div>
+    <div id="step3" class="hide">
+      <h1>Make it yours</h1><p class="notice">Add a little more information for your profile.</p>
+      <label>Short bio</label><textarea id="joinBio" placeholder="Tell people a little about you..."></textarea>
+      <label>Vibe</label><select id="joinVibe"><option>Chill</option><option>Funny</option><option>Competitive</option><option>Creative</option><option>Talkative</option><option>Late-night</option></select>
+      <div style="display:flex;justify-content:space-between;margin-top:22px"><button class="small" onclick="nextStep(2)">← Back</button><button class="primary" onclick="finish()">Enter Union</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="app hide" id="app">
+<aside class="sidebar">
+  <div class="logo">Union<span>.</span></div>
+  <div class="nav">
+    <button class="active" onclick="show('home',this)"><span class="ico">⌂</span>Home</button>
+    <button onclick="show('discover',this)"><span class="ico">◉</span>Discover</button>
+    <button onclick="show('rooms',this)"><span class="ico">◎</span>Topic Rooms</button>
+    <button onclick="show('messages',this)"><span class="ico">✉</span>Messages</button>
+    <button onclick="show('translate',this)"><span class="ico">文</span>Translator</button>
+    <button onclick="show('features',this)"><span class="ico">✦</span>Features</button>
+    <button onclick="show('assistant',this)"><span class="ico">AI</span>Union AI</button>
+    <button onclick="show('profile',this)"><span class="ico">●</span>Profile</button>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="top"><h1 id="title">Home</h1><div class="avatar" id="topAvatar">P</div></div>
+
+  <section id="home" class="section active">
+    <div class="card hero">
+      <h2>Find your people. Find your vibe.</h2>
+      <p>Discover people, topic rooms and conversations based on the things you actually care about — from games and anime to football, movies, artists and songs.</p>
+      <button class="primary" onclick="show('discover',document.querySelectorAll('.nav button')[1])">Explore people</button>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="row"><div><h3 style="margin:0">Today's Vibe</h3><p class="notice">Pick the energy you want today.</p></div><div class="spacer"></div><span class="status" id="currentVibe">Chill</span></div>
+        <div class="choice-grid" id="vibeChoices" style="margin-top:12px"></div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Icebreaker</h3>
+        <p id="icebreaker" style="font-size:18px;font-weight:800;min-height:52px"></p>
+        <button class="small" onclick="newIcebreaker()">New question</button>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card"><h3>People you might vibe with</h3><div id="homePeople"></div></div>
+      <div class="card"><h3>Popular topic rooms</h3><div id="homeRooms"></div></div>
+    </div>
+    <div class="card"><h3 style="margin-top:0">What's happening</h3><div id="feed"></div></div>
+  </section>
+
+  <section id="discover" class="section">
+    <div class="card"><h2>Discover people</h2><p class="notice">Search by name, interest or vibe.</p><input id="search" placeholder="Search people..." oninput="renderPeople()" style="margin-top:10px"></div>
+    <div class="card" style="background:linear-gradient(135deg,#7567f8,#e35bd8);color:#fff"><b>Vibe Finder</b><p style="margin:5px 0 12px;opacity:.9">Choose what you feel like talking about.</p><div id="finder" style="display:flex;gap:8px;flex-wrap:wrap"></div></div>
+    <div class="grid" id="people"></div>
+  </section>
+
+  <section id="rooms" class="section">
+    <div class="card">
+      <div class="row"><div><h2 style="margin:0">Topic Rooms</h2><p class="notice">Public rooms for the things people are talking about.</p></div><div class="spacer"></div><button class="small" onclick="createRoom()">＋ Create room</button></div>
+      <input id="roomSearch" placeholder="Search rooms, games, movies, shows, artists or songs..." oninput="renderRooms()" style="margin-top:12px">
+    </div>
+    <div id="roomList"></div>
+  </section>
+
+  <section id="messages" class="section">
+    <div class="chat-layout">
+      <div class="chat-list"><div class="chat-list-head"><h2>Messages</h2><input placeholder="Search chats..." style="margin-top:10px"></div><div id="chatList"></div></div>
+      <div class="chat-window"><div class="chat-head"><h2 id="chatTitle">Select a chat</h2><span class="notice">Private conversation</span></div><div class="chat-body" id="chatBody"><div class="notice" style="text-align:center;margin-top:35%">Choose someone from Discover to start chatting.</div></div><div class="chatbox"><label for="photoInput" style="width:44px;height:44px;margin:0;padding:0;border-radius:12px;background:#eeebff;color:#5d51df;display:grid;place-items:center;cursor:pointer;font-size:20px">＋</label><input id="photoInput" type="file" accept="image/*" hidden onchange="sendPhoto(event)"><input id="msg" placeholder="Write a message..." onkeydown="if(event.key==='Enter')sendMsg()"><button onclick="sendMsg()">Send</button></div></div>
+    </div>
+  </section>
+
+  <section id="translate" class="section">
+    <div class="card"><h2>Translator</h2><p class="notice">Translate a message before sending it to someone who speaks another language.</p>
+      <div class="grid" style="margin-top:14px"><div><label>From</label><select id="from"><option value="en">English</option><option value="fi">Finnish</option><option value="sv">Swedish</option><option value="es">Spanish</option><option value="fr">French</option><option value="de">German</option></select><textarea id="src" placeholder="Write something..."></textarea></div><div><label>To</label><select id="to"><option value="fi">Finnish</option><option value="en">English</option><option value="sv">Swedish</option><option value="es">Spanish</option><option value="fr">French</option><option value="de">German</option></select><div class="card" id="translationResult" style="min-height:120px;margin:0">Translation will appear here.</div></div></div>
+      <button class="primary" onclick="translateText()" style="margin-top:14px">Translate</button>
+      <p class="notice" style="margin-top:12px">This free demo includes common phrases. A production Union app can connect a translation API for full automatic translation.</p>
+    </div>
+  </section>
+
+  <section id="features" class="section">
+    <div class="card"><h2>Everything Union is built for</h2><p class="notice">The complete Union feature blueprint. Select any feature to see what it is supposed to do.</p></div>
+    <div class="grid three" id="featureGrid"></div>
+  </section>
+
+  <section id="assistant" class="section">
+    <div class="card assistant">
+      <h2>Union AI Assistant</h2>
+      <p class="notice">Ask about any numbered Union feature or how a part of the website works. Try “Explain feature 7” or “What are Topic Rooms?”</p>
+      <input id="aiQuestion" placeholder="Ask Union AI..." onkeydown="if(event.key==='Enter')askAI()">
+      <button class="primary" onclick="askAI()" style="margin-top:10px">Ask</button>
+      <div id="aiAnswer" style="margin-top:18px;background:#fff;color:#242033;border-radius:16px;padding:16px">Hi — I can explain Union's features and how the website works.</div>
+    </div>
+  </section>
+
+  <section id="profile" class="section">
+    <div class="card"><div class="row"><div class="big-avatar" id="bigAvatar">P</div><div><h2 id="profileName">Prince</h2><p class="notice">Your Union profile</p></div></div>
+      <label>Display name</label><input id="profileNameInput">
+      <label>Age</label><input id="profileAgeInput" type="number">
+      <label>Bio</label><textarea id="profileBioInput"></textarea>
+      <label>Interests</label><input id="profileInterestsInput">
+      <label>Current vibe</label><select id="profileVibe"><option>Chill</option><option>Funny</option><option>Competitive</option><option>Creative</option><option>Talkative</option><option>Late-night</option></select>
+      <button class="primary" onclick="saveProfile()" style="margin-top:14px">Save profile</button>
+    </div>
+  </section>
+</main>
+</div>
+
+<div class="modal" id="roomModal"><div class="modal-card"><div class="row"><h2 style="margin:0">Create a topic room</h2><div class="spacer"></div><button class="small" onclick="closeModal()">Close</button></div><p class="notice">If the topic you want is missing, create it so other people can find and discuss it.</p><label>Topic / room name</label><input id="newRoomName" placeholder="e.g. My favorite game, movie, artist or song"><label>Description</label><textarea id="newRoomDesc" placeholder="What should people talk about here?"></textarea><button class="primary" onclick="saveRoom()">Create room</button></div></div>
+
+<script>
+const interests=["Football","Anime","Gaming","Popular Games","Movies","TV Shows","Music","Artists","Songs","Art","Sports","School","Memes","Travel","Books","Technology"];
+const vibes=["Chill","Funny","Competitive","Creative","Talkative","Late-night"];
+const icebreakers=[
+"What game could you play for hours?",
+"What anime would you recommend to someone new?",
+"What song have you had stuck in your head lately?",
+"If you could instantly master one skill, what would it be?",
+"What's your most random hobby?",
+"What's a football match you'll never forget?",
+"What's a movie or show you could rewatch anytime?"
+];
+const people=[
+{name:"Alex",initial:"A",cls:"blue",interest:"Football • Gaming",gender:"Man",vibe:"Competitive"},
+{name:"Mia",initial:"M",cls:"pink",interest:"Anime • Music",gender:"Woman",vibe:"Creative"},
+{name:"Noah",initial:"N",cls:"green",interest:"Football • Movies",gender:"Man",vibe:"Chill"},
+{name:"Sofia",initial:"S",cls:"purple",interest:"Art • Anime",gender:"Woman",vibe:"Creative"},
+{name:"Leo",initial:"L",cls:"orange",interest:"Gaming • Music",gender:"Man",vibe:"Funny"},
+{name:"Emma",initial:"E",cls:"blue",interest:"School • Music",gender:"Woman",vibe:"Talkative"}
+];
+let rooms=[
+{icon:"⚽",name:"Football Zone",desc:"Matches, skills, transfers and football talk",type:"Sports"},
+{icon:"🎮",name:"Popular Games",desc:"Talk about the games everyone is playing",type:"Gaming"},
+{icon:"🍥",name:"Anime Hub",desc:"Recommendations, episodes and anime discussions",type:"Anime"},
+{icon:"🎬",name:"Movies",desc:"Talk about movies, characters and recommendations",type:"Movies"},
+{icon:"📺",name:"TV Shows",desc:"Discuss your favorite shows and episodes",type:"TV Shows"},
+{icon:"🎵",name:"Music Room",desc:"Share songs and discover artists",type:"Music"},
+{icon:"🎤",name:"Artists",desc:"Talk about artists, releases and performances",type:"Music"},
+{icon:"🎧",name:"Songs",desc:"Share songs and find people with the same taste",type:"Music"},
+{icon:"🎨",name:"Creative Corner",desc:"Art, ideas and creative projects",type:"Art"}
+];
+const features=[
+["1","Vibe Match","Discover people through shared interests, vibes and conversation topics instead of random scrolling."],
+["2","Topic Rooms","Join public rooms for popular games, movies, shows, artists, songs and any other topic people want to discuss."],
+["3","Create Missing Rooms","If a topic is not already available, users can create a new room with its own name and description."],
+["4","Private Messages","Start one-to-one conversations with people you discover and keep your chats in one place."],
+["5","Photo Messages","Send images inside a private conversation directly from your device."],
+["6","Vibe Finder","Filter discovery by the kind of conversation or energy you want right now."],
+["7","Today's Vibe","Choose a current vibe such as Chill, Funny or Competitive to shape the way you use Union."],
+["8","Icebreakers","Get quick conversation starters when you do not know what to say."],
+["9","Translator","Translate common messages between languages, with a production version able to connect a translation service."],
+["10","Profiles","Create a profile with a display name, age, bio, interests and current vibe."],
+["11","Status Bubbles","Share a short current status so friends and communities know what you are up to."],
+["12","Shared Playlists","Build and share music playlists with friends or inside communities."],
+["13","Group Polls","Let a room vote on questions, choices or plans."],
+["14","Mini Games","Use quick conversation games to make chats more interactive."],
+["15","Union AI Assistant","Ask about any numbered feature or website function and get an explanation of what it does."],
+["16","Full Feature Guide","This page contains the complete Union blueprint so users can understand what the platform is designed to include."]
+];
+let selectedInterests=[],currentChat=null,chats={},activeVibe="Chill";
+
+document.getElementById("choices").innerHTML=interests.map(x=>`<button class="choice" onclick="toggleInterest(this,'${x}')">${x}</button>`).join("");
+document.getElementById("vibeChoices").innerHTML=vibes.map(v=>`<button class="choice ${v==="Chill"?"selected":""}" onclick="pickVibe(this,'${v}')">${v}</button>`).join("");
+document.getElementById("finder").innerHTML=vibes.map(v=>`<button style="padding:8px 12px;border-radius:20px;background:#fff;color:#6356e8;font-weight:850" onclick="filterVibe('${v}')">${v}</button>`).join("");
+document.getElementById("featureGrid").innerHTML=features.map(f=>`<div class="card feature"><div class="num">FEATURE ${f[0]}</div><h3>${f[1]}</h3><p class="notice">${f[2]}</p><button class="small" onclick="explainFeature(${f[0]})">Explain</button></div>`).join("");
+
+function toggleInterest(el,x){el.classList.toggle("selected");selectedInterests.includes(x)?selectedInterests=selectedInterests.filter(i=>i!==x):selectedInterests.push(x)}
+function nextStep(n){[1,2,3].forEach(i=>{document.getElementById("step"+i).classList.toggle("hide",i!==n);document.getElementById("s"+i).classList.toggle("on",i<=n)})}
+function finish(){
+ let n=document.getElementById("joinName").value.trim()||"Prince",a=document.getElementById("joinAge").value;
+ if(!a){alert("Please enter your age.");nextStep(1);return}
+ document.getElementById("onboarding").classList.add("hide");document.getElementById("app").classList.remove("hide");
+ document.getElementById("profileName").textContent=n;document.getElementById("profileNameInput").value=n;document.getElementById("profileAgeInput").value=a;
+ document.getElementById("profileBioInput").value=document.getElementById("joinBio").value;document.getElementById("profileInterestsInput").value=selectedInterests.join(", ");document.getElementById("profileVibe").value=document.getElementById("joinVibe").value;
+ updateAvatar(n);renderAll();
+}
+function updateAvatar(n){let x=(n[0]||"P").toUpperCase();document.getElementById("topAvatar").textContent=x;document.getElementById("bigAvatar").textContent=x}
+function show(id,btn){document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));if(btn)btn.classList.add("active");document.getElementById("title").textContent={home:"Home",discover:"Discover",rooms:"Topic Rooms",messages:"Messages",translate:"Translator",features:"Features",assistant:"Union AI",profile:"Profile"}[id];if(id==="messages")renderChatList();if(id==="rooms")renderRooms()}
+function personHTML(p){return `<div class="person"><div class="pfp ${p.cls}">${p.initial}</div><div><h3 style="margin:0 0 3px">${escapeHTML(p.name)}</h3><p class="notice">${escapeHTML(p.interest)} • ${escapeHTML(p.vibe)}</p></div><div class="spacer"></div><button class="small" onclick="openChat('${escapeAttr(p.name)}')">Chat</button></div>`}
+function renderPeople(){let q=(document.getElementById("search")?.value||"").toLowerCase();let f=people.filter(p=>(p.name+" "+p.interest+" "+p.gender+" "+p.vibe).toLowerCase().includes(q));document.getElementById("people").innerHTML=f.map(p=>`<div class="card">${personHTML(p)}</div>`).join("")||'<div class="card">No matches found.</div>'}
+function renderHome(){document.getElementById("homePeople").innerHTML=people.slice(0,3).map(personHTML).join("");document.getElementById("homeRooms").innerHTML=rooms.slice(0,4).map(g=>`<div class="room" style="margin:11px 0"><div class="room-icon">${g.icon}</div><div><b>${escapeHTML(g.name)}</b><div class="notice">${escapeHTML(g.desc)}</div></div></div>`).join("");document.getElementById("feed").innerHTML=`<div class="feed-item"><b>Popular Games</b><div class="notice">People are joining the room to talk about games.</div></div><div class="feed-item"><b>Music Room</b><div class="notice">New conversations are starting around songs and artists.</div></div><div class="feed-item"><b>Union idea</b><div class="notice">Can't find your topic? Create a room and start the conversation.</div></div>`}
+function renderRooms(){let q=(document.getElementById("roomSearch")?.value||"").toLowerCase();let arr=rooms.filter(r=>(r.name+" "+r.desc+" "+r.type).toLowerCase().includes(q));document.getElementById("roomList").innerHTML=arr.map((r,i)=>`<div class="card room"><div class="room-icon">${r.icon}</div><div><h3 class="room-title">${escapeHTML(r.name)}</h3><p class="notice">${escapeHTML(r.desc)}</p><div class="room-actions"><span class="pill">${escapeHTML(r.type)}</span><button class="small" onclick="joinRoom('${escapeAttr(r.name)}')">Join room</button><button class="small" onclick="openRoom('${escapeAttr(r.name)}')">Open</button></div></div><div class="spacer"></div></div>`).join("")||'<div class="card">No rooms found. Create the topic you are looking for.</div>'}
+function joinRoom(n){alert("Joined "+n+"!")}
+function openRoom(n){alert(n+" room is ready for community discussion in this demo.")}
+function createRoom(){document.getElementById("roomModal").classList.add("show");document.getElementById("newRoomName").focus()}
+function closeModal(){document.getElementById("roomModal").classList.remove("show")}
+function saveRoom(){let n=document.getElementById("newRoomName").value.trim();if(!n)return alert("Enter a room name.");let d=document.getElementById("newRoomDesc").value.trim()||"A new Union topic room.";rooms.unshift({icon:"💬",name:n,desc:d,type:"Community"});document.getElementById("newRoomName").value="";document.getElementById("newRoomDesc").value="";closeModal();renderRooms();renderHome()}
+function openChat(name){currentChat=name;show("messages",document.querySelectorAll(".nav button")[3]);document.getElementById("chatTitle").textContent=name;if(!chats[name])chats[name]=[];renderMessages();renderChatList()}
+function renderChatList(){document.getElementById("chatList").innerHTML=people.map(p=>{let arr=chats[p.name]||[],last=arr[arr.length-1],preview=last?(typeof last==="string"?last:"📷 Photo"):"Start a conversation";return `<div class="chat-item ${currentChat===p.name?"selected":""}" onclick="openChat('${escapeAttr(p.name)}')"><div class="pfp ${p.cls}" style="width:43px;height:43px">${p.initial}</div><div><b>${escapeHTML(p.name)}</b><div class="notice">${escapeHTML(preview)}</div></div></div>`}).join("")}
+function renderMessages(){let b=document.getElementById("chatBody"),arr=chats[currentChat]||[];b.innerHTML=arr.length?arr.map(m=>typeof m==="string"?`<div class="message me">${escapeHTML(m)}</div>`:`<div class="message me" style="padding:5px"><img src="${m.photo}" alt="Photo" style="max-width:240px;max-height:260px;border-radius:11px;display:block"></div>`).join(""):'<div class="notice" style="text-align:center;margin-top:35%">Say hi and start the conversation.</div>';b.scrollTop=b.scrollHeight}
+function sendMsg(){let i=document.getElementById("msg"),t=i.value.trim();if(!t||!currentChat)return;chats[currentChat].push(t);i.value="";renderMessages();renderChatList()}
+function sendPhoto(event){let file=event.target.files[0];if(!file||!currentChat)return;if(!file.type.startsWith("image/"))return;let reader=new FileReader();reader.onload=()=>{chats[currentChat]=chats[currentChat]||[];chats[currentChat].push({photo:reader.result});renderMessages();renderChatList()};reader.readAsDataURL(file);event.target.value=""}
+function pickVibe(el,v){activeVibe=v;document.querySelectorAll("#vibeChoices .choice").forEach(x=>x.classList.remove("selected"));el.classList.add("selected");document.getElementById("currentVibe").textContent=v;document.getElementById("profileVibe").value=v}
+function newIcebreaker(){document.getElementById("icebreaker").textContent=icebreakers[Math.floor(Math.random()*icebreakers.length)]}
+function filterVibe(v){document.getElementById("search").value=v;renderPeople();show("discover",document.querySelectorAll(".nav button")[1])}
+function translateText(){let s=document.getElementById("src").value.trim().toLowerCase(),from=document.getElementById("from").value,to=document.getElementById("to").value;const p={"hello|en|fi":"hei","hello|fi|en":"hello","thank you|en|fi":"kiitos","kiitos|fi|en":"thank you","hello|en|sv":"hej","hello|sv|en":"hello","hello|en|es":"hola","hello|es|en":"hello","hello|en|fr":"bonjour","hello|fr|en":"hello","hello|en|de":"hallo","hello|de|en":"hello"};document.getElementById("translationResult").textContent=p[s+"|"+from+"|"+to]||"No built-in translation for this sentence yet. A production Union version can connect a translation API for automatic translation."}
+function explainFeature(n){let f=features.find(x=>x[0]==n);show("assistant",document.querySelectorAll(".nav button")[6]);document.getElementById("aiQuestion").value="Explain feature "+n;document.getElementById("aiAnswer").innerHTML="<b>Feature "+f[0]+": "+escapeHTML(f[1])+"</b><p style='margin-bottom:0'>"+escapeHTML(f[2])+"</p>"}
+function askAI(){let q=document.getElementById("aiQuestion").value.trim().toLowerCase();if(!q)return;let f=null;let m=q.match(/(?:feature|number|#)\\s*(\\d+)/);if(m)f=features.find(x=>x[0]==m[1]);if(!f)f=features.find(x=>q.includes(x[1].toLowerCase()));let answer=f?`<b>Feature ${f[0]}: ${escapeHTML(f[1])}</b><p>${escapeHTML(f[2])}</p><p style="margin-bottom:0">In the website, this feature is represented in the Union interface so users can understand or try the relevant part of the platform.</p>`:`<b>Union AI Assistant</b><p>I can explain the numbered Union features 1–16, Topic Rooms, creating missing rooms, discovery, messages, profiles, translation and the overall website structure. Try <b>“Explain feature 2”</b> or ask <b>“What are Topic Rooms?”</b>.</p>`;document.getElementById("aiAnswer").innerHTML=answer}
+function saveProfile(){let n=document.getElementById("profileNameInput").value.trim()||"Prince";document.getElementById("profileName").textContent=n;updateAvatar(n);activeVibe=document.getElementById("profileVibe").value;document.getElementById("currentVibe").textContent=activeVibe;alert("Profile saved!")}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function escapeAttr(s){return String(s).replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;")}
+function renderAll(){renderHome();renderPeople();renderRooms();renderChatList();newIcebreaker()}
+</script>
+</body>
+</html>
